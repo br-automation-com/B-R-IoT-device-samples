@@ -1,4 +1,4 @@
-site_name: BrPyZip
+site_name: B&R IoT
 use_directory_urls: false
 
 extra_css: [extra.css]
@@ -10,7 +10,7 @@ extra_javascript:
 nav:
   - Start: index.md
   - Samples:
-    - OPC UA to MySQL: sample/opc2database.md
+    - OPC UA to MySQL: samples/opc2database.md
   - Appendix: appendix.md
   - Revision: revision.md
 
