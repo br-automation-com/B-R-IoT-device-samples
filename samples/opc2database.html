@@ -72,7 +72,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#edgecontroller-project" class="md-skip">
+        <a href="#opc-ua-to-sql-data-logger" class="md-skip">
           Skip to content
         </a>
       
@@ -332,36 +332,54 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#project-structure" class="md-nav__link">
+  <a href="#prerequisites" class="md-nav__link">
     <span class="md-ellipsis">
-      Project Structure
+      Prerequisites
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#setup-instructions" class="md-nav__link">
+  <a href="#installation" class="md-nav__link">
     <span class="md-ellipsis">
-      Setup Instructions
+      Installation
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
+  <a href="#configuration" class="md-nav__link">
     <span class="md-ellipsis">
-      Usage
+      Configuration
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#license" class="md-nav__link">
+  <a href="#variable-list" class="md-nav__link">
     <span class="md-ellipsis">
-      License
+      Variable list
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#script-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      Script Workflow
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#error-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Error Handling
     </span>
   </a>
   
@@ -444,43 +462,76 @@
   
 
 
-<h1 id="edgecontroller-project">EdgeController Project</h1>
-<p>This project is designed to connect to an OPC UA server, read variable values, and insert them into a MySQL database. It provides a simple interface for monitoring and logging data from industrial automation systems.</p>
-<h2 id="project-structure">Project Structure</h2>
-<pre><code>python
-├── OPCUA2SQL
-    ├── opcua2sql.py       # Main logic for OPC UA connection and data logging
-    ├── varlist.txt        # Variable names and types for OPC UA
-    └── requirements.txt    # Required Python packages
-</code></pre>
-<h2 id="setup-instructions">Setup Instructions</h2>
+<h1 id="opc-ua-to-sql-data-logger">OPC UA to SQL Data Logger</h1>
+<p>This script connects to an OPC UA server, reads variable values, and logs them into a MySQL database. The variable names and types are read from a <code>varlist.txt</code> file.</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<ul>
+<li>Python 3.x</li>
+<li><code>opcua</code> library</li>
+<li><code>mysql-connector-python</code> library</li>
+<li>MySQL server</li>
+</ul>
+<h2 id="installation">Installation</h2>
 <ol>
 <li>
-<p><strong>Clone the repository</strong>:
-   <code>git clone https://github.com/br-automation-com/B-R-IoT-device-samples
-   cd EdgeController</code></p>
+<p>Install the required Python libraries:
+    <code>sh
+    pip install opcua mysql-connector-python</code></p>
 </li>
 <li>
-<p><strong>Install required packages</strong>:
-   Navigate to the <code>OPCUA2SQL</code> directory and install the required packages using pip:
-   <code>pip install -r requirements.txt</code></p>
-</li>
-<li>
-<p><strong>Configure the OPC UA server</strong>:
-   Update the <code>opcua2sql.py</code> file with the correct OPC UA server URL and database connection details.</p>
-</li>
-<li>
-<p><strong>Define variables</strong>:
-   Edit the <code>varlist.txt</code> file to include the variable names and types you wish to monitor.</p>
+<p>Ensure you have a MySQL server running and accessible.</p>
 </li>
 </ol>
-<h2 id="usage">Usage</h2>
-<p>Run the main script to start reading values from the OPC UA server and logging them into the MySQL database:</p>
-<pre><code>python opcua2sql.py
+<h2 id="configuration">Configuration</h2>
+<ol>
+<li>
+<p><strong>OPC UA Server URL</strong>: Update the <code>OPC_UA_SERVER</code> variable with the URL of your OPC UA server.
+    <code>python
+    OPC_UA_SERVER = "opc.tcp://192.168.30.108:4840"</code></p>
+</li>
+<li>
+<p><strong>Variable Namespace</strong>: Update the <code>VAR_NAMESPACE</code> variable with the namespace of your OPC UA server.
+    <code>python
+    VAR_NAMESPACE = "urn:B&amp;R/pv/"</code></p>
+</li>
+<li>
+<p><strong>Polling Interval</strong>: Set the polling interval in seconds.
+    <code>python
+    POLLING_INTERVAL = 60</code></p>
+</li>
+<li>
+<p><strong>MySQL Database Connection</strong>: Update the MySQL connection details.
+    <code>python
+    db_connection = mysql.connector.connect(
+        host="192.168.1.1",
+        user="root",
+        password="bur",
+        database="data"
+    )</code></p>
+</li>
+</ol>
+<h2 id="variable-list">Variable list</h2>
+<p>Create a <code>varlist.txt</code> file in the same directory as the script. This file should contain the variable names and their types, separated by a semicolon (<code>;</code>). Lines starting with <code>#</code> are treated as comments.</p>
+<p>Example:</p>
+<pre><code># VariableName;Type
+Temperature;FLOAT
+Pressure;FLOAT
 </code></pre>
-<p>Ensure that the MySQL server is running and accessible with the credentials provided in the script. The data will be inserted into the specified table in the database.</p>
-<h2 id="license">License</h2>
-<p>This project is licensed under the MIT License. See the LICENSE file for details.</p>
+<h2 id="script-workflow">Script Workflow</h2>
+<ol>
+<li><strong>Read Variable Names and Types</strong>: The script reads variable names and types from <code>varlist.txt</code>.</li>
+<li><strong>Connect to OPC UA Server</strong>: The script connects to the OPC UA server using the provided URL.</li>
+<li><strong>List Namespaces</strong>: The script lists all namespaces available on the OPC UA server.</li>
+<li><strong>Get Namespace Index</strong>: The script retrieves the namespace index for the specified namespace.</li>
+<li><strong>Create Node IDs and Nodes</strong>: The script creates node IDs and nodes for each variable.</li>
+<li><strong>Connect to MySQL Database</strong>: The script connects to the MySQL database.</li>
+<li><strong>Check and Create Columns</strong>: The script checks if columns exist in the database table and creates them if they don't.</li>
+<li><strong>Read and Log Values</strong>: The script reads the values of the nodes cyclically and logs them into the MySQL database.</li>
+<li><strong>Error Handling</strong>: The script handles any errors that occur during the process.</li>
+<li><strong>Disconnect</strong>: The script disconnects from the OPC UA server and MySQL database when finished.</li>
+</ol>
+<h2 id="error-handling">Error Handling</h2>
+<p>The script includes basic error handling to catch and print exceptions that occur during the connection, reading, and logging processes.</p>
 
 
 
