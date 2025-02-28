@@ -486,8 +486,13 @@
 </ul>
 <h4 id="known-issues">Known issues</h4>
 <ul>
-<li>When you update the image with sudo apt-get the docker is updated to version 28.0.0. With this version, the docker will no longer start. The problem is most likely this issue on Github: <a href="https://github.com/moby/moby/issues/49505" title="https://github.com/moby/moby/issues/49505">28.0.0: Cannot start with iptables=true · Issue #49505 · moby/moby</a>  <strong>Reverting to docker 2.7.1. fixes the issue</strong></li>
+<li>When you update the image with sudo apt-get the docker is updated to version 28.0.0. With this version, the docker will no longer start. The problem is most likely this issue on Github: <a href="https://github.com/moby/moby/issues/49505" title="https://github.com/moby/moby/issues/49505">28.0.0: Cannot start with iptables=true · Issue #49505 · moby/moby</a>  </li>
 </ul>
+<p>To downgrade and freeze the version to 27.1.2, you can use the following commands:</p>
+<pre><code>sudo apt-get install docker-ce=5:27.1.2-1~debian.12~bookworm docker-ce-cli=5:27.1.2-1~debian.12~bookworm containerd.io
+sudo apt-mark hold docker-ce docker-ce-cli containerd.io
+sudo systemctl restart docker
+</code></pre>
 <h4 id="tested-containers">Tested Containers</h4>
 <table>
 <thead>
