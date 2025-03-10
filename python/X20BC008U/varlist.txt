@@ -1,0 +1,3 @@
+# Variable name; database data type
+DeviceSet, X20BC008U, X2X, SubDevices, ST5, ProcessData, DigitalOutput01;DigitalOutput01
+DeviceSet, X20BC008U, X2X, SubDevices, ST6, ProcessData, InputRegister6;DC_Input

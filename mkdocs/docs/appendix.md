@@ -28,12 +28,16 @@ sudo systemctl restart docker
 | portainer | Yes | docker volume create portainer_datadocker run -d -p 9443:9443 --name portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce:latest |
 | node red | Yes | docker run -it -p 1880:1880 --name mynodered nodered/node-red |
 | mysql | Yes | docker run -p 3306:3306 --name mysql-container -e MYSQL_ROOT_PASSWORD=my-secret-pw -v mysql-data:/var/lib/mysql -d mysql:latest |
+| nginx | Yes | docker run -d -p 82:80 -v /home/admin/web:/usr/share/nginx/html --name my-nginx-container nginx:latest |
+
 
 #### Useful tools to install on the target
 
 | Name | Command |
 | --- | --- |
 | pipx | sudo apt install pipx |
+| npm | sudo apt install npm |
+
 
 #### Useful vscode extensions
 
