@@ -60,9 +60,17 @@ try:
     )
     cursor = db_connection.cursor()
 
+    # Create the table PLC1 if it does not exist
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS PLC1 (
+            id INT AUTO_INCREMENT PRIMARY KEY
+        )
+    """)
+    db_connection.commit()
+
     # Check if columns exist and create them if they don't
     for var_name, var_type in zip(variable_names, variable_types):
-        var_name = var_name.replace(":","_")
+        var_name = var_name.replace(":", "_")
         cursor.execute(f"SHOW COLUMNS FROM PLC1 LIKE '{var_name}'")
         result = cursor.fetchone()
         if not result:
