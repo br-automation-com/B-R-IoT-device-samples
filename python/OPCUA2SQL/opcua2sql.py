@@ -3,12 +3,19 @@ from opcua import Client
 import os
 import mysql.connector
 
+# SQL Server URL
+SQL_SERVER = "192.168.30.128"
 # OPC UA Server URL
 OPC_UA_SERVER = "opc.tcp://192.168.30.108:4840"
 # B&R Variable name space, use 'urn:B&R/pv/' for information model 1 and 'http://br-automation.com/OpcUa/PLC/PV/' for information model 2
 VAR_NAMESPACE = "urn:B&R/pv/"
 # Polling interval in seconds
-POLLING_INTERVAL = 60
+POLLING_INTERVAL = 5
+
+# Database credentials
+DB_USER = "admin"
+DB_PASSWORD = "bur4711"
+DB_DATABASE = "data"
 
 # Absolute path to varlist.txt
 varlist_path = os.path.join(os.path.dirname(__file__), "varlist.txt")
@@ -46,10 +53,10 @@ try:
 
     # Connect to MySQL database
     db_connection = mysql.connector.connect(
-        host="192.168.1.1",
-        user="root",
-        password="bur",
-        database="data"
+        host=SQL_SERVER,
+        user=DB_USER,
+        password=DB_PASSWORD,
+        database=DB_DATABASE
     )
     cursor = db_connection.cursor()
 
